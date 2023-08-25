@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="SrcText" />
+    <button onclick="readTextFile()">Click me!</button>
+    <div id="FileData"></div>
+    <script>
+        function readTextFile() {
+            const rawFile = new XMLHttpRequest();
+            const src = document.getElementById('SrcText').value;
+            if (src !== '') {
+                rawFile.open("GET", `file:///${src}`, false);
+                rawFile.onreadystatechange = function () {
+                    if(rawFile.readyState === 4)  {
+                        if(rawFile.status === 200 || rawFile.status == 0) {
+                            const allText = rawFile.responseText;
+                            console.log(allText);
+                            const container = document.getElementById('FileData');
+                            container.innerHtml = allText;
+                        }
+                    }
+                }
+                rawFile.send(null);
+            }
+        }
+    </script>
+</body>
+</html>
